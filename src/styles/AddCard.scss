@@ -1,0 +1,35 @@
+.Button {
+    width: 90px;
+    height: 30px;
+    margin: 3px 5px 0px 5px;
+    color: white;
+    background-color: green;
+    border-radius: 5px;
+    font-size: medium;
+    border-color: green;
+    border-style: solid;
+    cursor: pointer;
+}
+
+.TextArea {
+    resize: none;
+    width: 90%;
+    height: 100px;
+    margin: 5px;
+}
+
+.Input {
+    box-sizing: border-box;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    color: rgb(40, 50, 90);
+    font-weight: bold;
+    padding: 5px 12px 5px 8px;
+    width: 140px;
+}
+
+.PriorityHeader {
+    margin: 10px 0px 0px 12px;
+    cursor: pointer;
+}

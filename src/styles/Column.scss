@@ -1,0 +1,29 @@
+.Column {
+    background-color: rgb(235, 235, 240);
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    width: 300px;
+    height: auto;
+}
+
+.ColumnTitle {
+    color: rgb(40, 50, 90);
+    font-weight: bold;
+    margin: 10px;
+    cursor: pointer;
+}
+
+.ColumnIcon {
+    margin: 10px;
+    margin-left: auto;
+}
+
+.ColumnHeader {
+    display: flex;
+}
+
+.CustomIcon {
+    color: rgb(40, 50, 90);
+    cursor: pointer;
+}
