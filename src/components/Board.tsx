@@ -122,6 +122,17 @@ const Board: React.FC<BoardProps> = (props) => {
                                     columns.filter((col) => col.id !== value)
                                 )
                             }}
+                            onClickSaveCard={(columId, cards) => {
+                                const tempColumns = [...columns]
+                                const targetColumn = columns.find((col) => col.id === columId)
+                                if (!targetColumn) return
+                                targetColumn.cards = cards
+                                const index = columns.indexOf(targetColumn)
+                                targetColumn.cards = cards
+                                const [reArrangedColums] = tempColumns.splice(index, 1)
+                                tempColumns.splice(index, 0, reArrangedColums)
+                                setColumns(tempColumns)
+                            }}
                             onClickDeleteCard={(value) => {
                                 const targetColumn = columns.find(
                                     (col) => col.id === column.id

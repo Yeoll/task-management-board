@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import AddCardButton from './AddCardButton'
 import Card from './Card'
 import AddCard from './AddCard'
@@ -18,6 +18,10 @@ const Column: React.FC<ColumnProps> = (props) => {
     const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
     const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
 
+    useEffect(() => {
+        setCards(props.cards)
+    }, [props.cards])
+
     const renderCards = (cards: CardType[]) => {
         return cards.map((card, index) => (
             <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -32,8 +36,13 @@ const Column: React.FC<ColumnProps> = (props) => {
                             id={card.id}
                             card={card}
                             onClickSave={(content, priority) => {
-                                card.content = content
-                                card.priority = priority
+                                const newCards = [...cards];
+                                const updateCard = newCards.find((c) => c.id === card.id)
+                                if (!updateCard) return;
+                                updateCard.content = content;
+                                updateCard.priority = priority;
+                                setCards(newCards)
+                                props.onClickSaveCard(props.id, cards)
                             }}
                             onClickDelete={(value) => {
                                 setCards(

@@ -8,6 +8,7 @@ interface ColumnProps {
     draggableHandleProps?: DraggableProvidedDragHandleProps
     onClickSaveTitle: (title: string) => void
     onClickRemoveColumn: (columnId: string) => void
+    onClickSaveCard: (columnId:string, cards: CardType[]) => void
     onClickDeleteCard: (cardId: string) => void
 }
 
