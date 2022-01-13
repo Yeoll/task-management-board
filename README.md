@@ -24,4 +24,4 @@ Open [frosty-shirley-14fc61.netlify.app](frosty-shirley-14fc61.netlify.app) to v
 
 ### Rearranging the order of columns by dragging
 
-### Moving a card from a column to another column
+### Moving a card from a column to another column by dragging
