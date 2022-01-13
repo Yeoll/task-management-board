@@ -16,6 +16,8 @@ Open [frosty-shirley-14fc61.netlify.app](https://frosty-shirley-14fc61.netlify.a
 
 ### Editing content of a card
 
+### Editing priority of a card by clicking priority bar in editing mode
+
 ### Deleting a card with confirmation modal
 
 ### Deleting a column with confirmation modal
