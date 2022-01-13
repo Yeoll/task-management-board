@@ -4,7 +4,7 @@ This project is a sample of functional task management baord similar to Trello a
 
 ## Preview
 
-Open [frosty-shirley-14fc61.netlify.app](frosty-shirley-14fc61.netlify.app) to view it in the browser.
+Open [frosty-shirley-14fc61.netlify.app](https://frosty-shirley-14fc61.netlify.app) to view it in the browser.
 
 ## Available Functions
 
