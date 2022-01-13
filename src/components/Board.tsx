@@ -122,9 +122,9 @@ const Board: React.FC<BoardProps> = (props) => {
                                     columns.filter((col) => col.id !== value)
                                 )
                             }}
-                            onClickSaveCard={(columId, cards) => {
+                            onClickSaveCard={(columnId, cards) => {
                                 const tempColumns = [...columns]
-                                const targetColumn = columns.find((col) => col.id === columId)
+                                const targetColumn = columns.find((col) => col.id === columnId)
                                 if (!targetColumn) return
                                 targetColumn.cards = cards
                                 const index = columns.indexOf(targetColumn)
@@ -151,6 +151,17 @@ const Board: React.FC<BoardProps> = (props) => {
                                 tempColumns.splice(index, 0, reArrangedColums)
                                 setColumns(tempColumns)
                                 console.log(columns)
+                            }}
+                            onClickAddCard={(columnId, cards) => {
+                                const tempColumns = [...columns]
+                                const targetColumn = columns.find((col) => col.id === columnId)
+                                if (!targetColumn) return
+                                targetColumn.cards = cards
+                                const index = columns.indexOf(targetColumn)
+                                targetColumn.cards = cards
+                                const [reArrangedColums] = tempColumns.splice(index, 1)
+                                tempColumns.splice(index, 0, reArrangedColums)
+                                setColumns(tempColumns)
                             }}
                         />
                     </div>

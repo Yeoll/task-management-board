@@ -19,9 +19,9 @@ const Column: React.FC<ColumnProps> = (props) => {
     const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
 
     useEffect(() => {
-        setCards(props.cards)
+        setCards(props.cards)   
     }, [props.cards])
-
+    
     const renderCards = (cards: CardType[]) => {
         return cards.map((card, index) => (
             <Draggable key={card.id} draggableId={card.id} index={index}>
@@ -132,17 +132,17 @@ const Column: React.FC<ColumnProps> = (props) => {
                     onClickSave={(content, priority) => {
                         setIsAddingCard(false)
                         if (content === '') return
-                        setCards((cards) => {
-                            return [
-                                ...cards,
-                                {
-                                    id: uuid(),
-                                    columnId: props.id,
-                                    priority: priority,
-                                    content: content,
-                                },
-                            ] as CardType[]
-                        })
+                        const newCards = [
+                            ...cards,
+                            {
+                                id: uuid(),
+                                columnId: props.id,
+                                priority: priority,
+                                content: content,
+                            },
+                        ]
+                        setCards(newCards)
+                        props.onClickAddCard(props.id, newCards)
                     }}
                 />
             )}

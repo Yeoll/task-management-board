@@ -10,6 +10,7 @@ interface ColumnProps {
     onClickRemoveColumn: (columnId: string) => void
     onClickSaveCard: (columnId:string, cards: CardType[]) => void
     onClickDeleteCard: (cardId: string) => void
+    onClickAddCard: (columnId:string, cards: CardType[]) => void
 }
 
 export default ColumnProps
