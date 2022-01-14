@@ -27,3 +27,5 @@ Open [frosty-shirley-14fc61.netlify.app](https://frosty-shirley-14fc61.netlify.a
 ### Rearranging the order of columns by dragging
 
 ### Moving a card from a column to another column by dragging
+
+### Searching by content

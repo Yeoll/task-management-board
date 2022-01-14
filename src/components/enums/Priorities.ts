@@ -8,15 +8,15 @@ enum Priorities {
 const getColor = (color: Priorities) => {
     switch (color) {
         case Priorities.None:
-            return 'white'
+            return 'white';
         case Priorities.Green:
-            return 'green'
+            return 'green';
         case Priorities.Yellow:
-            return 'yellow'
+            return 'yellow';
         case Priorities.Red:
-            return 'red'
+            return 'red';
     }
-}
+};
 
-export { Priorities }
-export { getColor }
+export { Priorities };
+export { getColor };

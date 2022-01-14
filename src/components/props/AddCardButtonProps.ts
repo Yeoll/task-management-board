@@ -1,6 +1,6 @@
 interface AddCardButtonProps {
-    columnKey: string
-    onAddButtonClick: () => void
+    columnKey: string;
+    onAddButtonClick: () => void;
 }
 
-export default AddCardButtonProps
+export default AddCardButtonProps;

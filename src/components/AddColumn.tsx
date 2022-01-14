@@ -1,15 +1,15 @@
-import React, { useState } from 'react'
-import AddColumnProps from './props/AddColumnProps'
-import '../styles/Column.scss'
-import '../styles/AddCardButton.scss'
+import React, { useState } from 'react';
+import AddColumnProps from './props/AddColumnProps';
+import '../styles/Column.scss';
+import '../styles/AddCardButton.scss';
 
 const AddColumn: React.FC<AddColumnProps> = (props) => {
-    const [isAddingColumn, setIsAddingColumn] = useState<boolean>(false)
-    const [title, setTitle] = useState<string>('')
+    const [isAddingColumn, setIsAddingColumn] = useState<boolean>(false);
+    const [title, setTitle] = useState<string>('');
 
     const onClick = () => {
-        setIsAddingColumn(true)
-    }
+        setIsAddingColumn(true);
+    };
 
     return (
         <div className="Column">
@@ -23,11 +23,11 @@ const AddColumn: React.FC<AddColumnProps> = (props) => {
                     <button
                         className="Button"
                         onClick={(e) => {
-                            e.preventDefault()
-                            if (!title) return
-                            setTitle('')
-                            setIsAddingColumn(false)
-                            props.onClickSave(title)
+                            e.preventDefault();
+                            if (!title) return;
+                            setTitle('');
+                            setIsAddingColumn(false);
+                            props.onClickSave(title);
                         }}
                     >
                         Save
@@ -39,7 +39,7 @@ const AddColumn: React.FC<AddColumnProps> = (props) => {
                 </div>
             )}
         </div>
-    )
-}
+    );
+};
 
-export default AddColumn
+export default AddColumn;

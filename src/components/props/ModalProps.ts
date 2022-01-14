@@ -1,7 +1,7 @@
 interface ModalProps {
-    question: string
-    onClickConfirm: () => void
-    onClickCancel: () => void
+    question: string;
+    onClickConfirm: () => void;
+    onClickCancel: () => void;
 }
 
-export default ModalProps
+export default ModalProps;

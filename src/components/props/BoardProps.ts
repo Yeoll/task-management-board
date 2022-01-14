@@ -1,5 +1,5 @@
 interface BoardProps {
-    title: string
+    title: string;
 }
 
-export default BoardProps
+export default BoardProps;

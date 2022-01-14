@@ -1,8 +1,8 @@
-import { Priorities } from '../enums/Priorities'
+import { Priorities } from '../enums/Priorities';
 
 interface PriorityProps {
-    priority: Priorities
-    isEdit: boolean
+    priority: Priorities;
+    isEdit: boolean;
 }
 
-export default PriorityProps
+export default PriorityProps;

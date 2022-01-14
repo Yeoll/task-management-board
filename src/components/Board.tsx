@@ -1,22 +1,24 @@
-import React, { useState, useEffect } from 'react'
-import Column from './Column'
-import BoardProps from './props/BoardProps'
-import { Priorities } from './enums/Priorities'
-import CardType from './models/CardType'
-import ColumnType from './models/ColumnType'
-import AddColumn from './AddColumn'
-import { v4 as uuid } from 'uuid'
+import React, { useState, useEffect, useCallback } from 'react';
+import Column from './Column';
+import BoardProps from './props/BoardProps';
+import { Priorities } from './enums/Priorities';
+import CardType from './types/CardType';
+import ColumnType from './types/ColumnType';
+import AddColumn from './AddColumn';
+import { v4 as uuid } from 'uuid';
 import {
     DragDropContext,
     Droppable,
     Draggable,
     DropResult,
-} from 'react-beautiful-dnd'
-import '../styles/Board.scss'
+} from 'react-beautiful-dnd';
+import '../styles/Board.scss';
+import { reorder, move } from '../utils';
+import Search from './Search';
 
-const colId1 = uuid()
-const colId2 = uuid()
-const colId3 = uuid()
+const colId1 = uuid();
+const colId2 = uuid();
+const colId3 = uuid();
 
 const data_cards: CardType[] = [
     {
@@ -56,7 +58,7 @@ const data_cards: CardType[] = [
         priority: Priorities.None,
         content: 'As well as rename the Columns',
     },
-]
+];
 
 const data_columns: ColumnType[] = [
     {
@@ -74,24 +76,32 @@ const data_columns: ColumnType[] = [
         title: 'Done',
         cards: data_cards.filter((card) => card.columnId === colId3),
     },
-]
+];
 
 const Board: React.FC<BoardProps> = (props) => {
-    const [title] = useState<string>(props.title)
-    const [columns, setColumns] = useState<ColumnType[]>([])
+    const [title] = useState<string>(props.title);
+    const [orgColumns, setOrgColumns] = useState<ColumnType[]>([]);
+    const [columns, setColumns] = useState<ColumnType[]>([]);
+    const [isSearching, setIsSearching] = useState<boolean>(false);
 
     useEffect(() => {
         if ('data_columns' in localStorage) {
-            setColumns(JSON.parse(localStorage.getItem('data_columns')!))
+            const orgColumns = JSON.parse(
+                localStorage.getItem('data_columns')!
+            );
+            setColumns(orgColumns);
+            setOrgColumns(orgColumns);
         } else {
-            localStorage.setItem('data_columns', JSON.stringify(data_columns))
-            setColumns(data_columns)
+            localStorage.setItem('data_columns', JSON.stringify(data_columns));
+            setColumns(data_columns);
+            setOrgColumns(data_columns);
         }
-    }, [])
+    }, []);
 
     useEffect(() => {
-        localStorage.setItem('data_columns', JSON.stringify(columns))
-    }, [columns])
+        const updatingColumns = JSON.stringify(columns);
+        localStorage.setItem('data_columns', updatingColumns);
+    }, [columns]);
 
     const renderColumns = columns.map((column, index) => {
         return (
@@ -108,148 +118,137 @@ const Board: React.FC<BoardProps> = (props) => {
                                 if (
                                     !columns.find((col) => col.id === column.id)
                                 )
-                                    return
-                                ;(
+                                    return;
+                                (
                                     columns.find(
                                         (col) => col.id === column.id
                                     ) as ColumnType
-                                ).title = value
+                                ).title = value;
                             }}
                             onClickRemoveColumn={(value) => {
                                 if (!columns.find((col) => col.id === value))
-                                    return
+                                    return;
                                 setColumns(
                                     columns.filter((col) => col.id !== value)
-                                )
+                                );
                             }}
                             onClickSaveCard={(columnId, cards) => {
-                                const tempColumns = [...columns]
-                                const targetColumn = columns.find((col) => col.id === columnId)
-                                if (!targetColumn) return
-                                targetColumn.cards = cards
-                                const index = columns.indexOf(targetColumn)
-                                targetColumn.cards = cards
-                                const [reArrangedColums] = tempColumns.splice(index, 1)
-                                tempColumns.splice(index, 0, reArrangedColums)
-                                setColumns(tempColumns)
+                                const tempColumns = [...columns];
+                                const targetColumn = columns.find(
+                                    (col) => col.id === columnId
+                                );
+                                if (!targetColumn) return;
+                                targetColumn.cards = cards;
+                                const index = columns.indexOf(targetColumn);
+                                targetColumn.cards = cards;
+                                const [reArrangedColums] = tempColumns.splice(
+                                    index,
+                                    1
+                                );
+                                tempColumns.splice(index, 0, reArrangedColums);
+                                setColumns(tempColumns);
                             }}
                             onClickDeleteCard={(value) => {
                                 const targetColumn = columns.find(
                                     (col) => col.id === column.id
-                                )
-                                if (!targetColumn) return
+                                );
+                                if (!targetColumn) return;
 
                                 targetColumn.cards = targetColumn.cards.filter(
                                     (card) => card.id !== value
-                                )
-                                const tempColumns = Array.from(columns)
-                                const index = tempColumns.indexOf(targetColumn)
+                                );
+                                const tempColumns = Array.from(columns);
+                                const index = tempColumns.indexOf(targetColumn);
                                 const [reArrangedColums] = tempColumns.splice(
                                     index,
                                     1
-                                )
-                                tempColumns.splice(index, 0, reArrangedColums)
-                                setColumns(tempColumns)
-                                console.log(columns)
+                                );
+                                tempColumns.splice(index, 0, reArrangedColums);
+                                setColumns(tempColumns);
                             }}
                             onClickAddCard={(columnId, cards) => {
-                                const tempColumns = [...columns]
-                                const targetColumn = columns.find((col) => col.id === columnId)
-                                if (!targetColumn) return
-                                targetColumn.cards = cards
-                                const index = columns.indexOf(targetColumn)
-                                targetColumn.cards = cards
-                                const [reArrangedColums] = tempColumns.splice(index, 1)
-                                tempColumns.splice(index, 0, reArrangedColums)
-                                setColumns(tempColumns)
+                                const tempColumns = [...columns];
+                                const targetColumn = columns.find(
+                                    (col) => col.id === columnId
+                                );
+                                if (!targetColumn) return;
+                                targetColumn.cards = cards;
+                                const index = columns.indexOf(targetColumn);
+                                targetColumn.cards = cards;
+                                const [reArrangedColums] = tempColumns.splice(
+                                    index,
+                                    1
+                                );
+                                tempColumns.splice(index, 0, reArrangedColums);
+                                setColumns(tempColumns);
                             }}
                         />
                     </div>
                 )}
             </Draggable>
-        )
-    })
+        );
+    });
 
     const onDragEnd = (result: DropResult) => {
-        console.log(result)
-        if (!result.destination) return
+        if (!result.destination) return;
 
-        if (result.type === 'COLUMN') {
-            const tempColumns = Array.from(columns)
-            const [reArrangedColums] = tempColumns.splice(
-                result.source.index,
-                1
-            )
-            tempColumns.splice(result.destination.index, 0, reArrangedColums)
-            setColumns(tempColumns)
-        } else if (
-            result.type === 'CARD' &&
-            result.source.droppableId === result.destination.droppableId
-        ) {
-            const targetColumn = columns.find(
-                (col) => col.id === result.source.droppableId
-            )
-            if (!targetColumn) return
-            const tempCards = Array.from(targetColumn.cards)
-            const [reArrangedCards] = tempCards.splice(result.source.index, 1)
-            tempCards.splice(result.destination.index, 0, reArrangedCards)
+        switch (result.type) {
+            case 'COLUMN':
+                const reorderedColumns = reorder<ColumnType>(
+                    result.source.index,
+                    result.destination.index,
+                    columns
+                );
+                setColumns(reorderedColumns);
+                break;
 
-            console.log(tempCards)
+            case 'CARD':
+                const isSameColumn =
+                    result.source.droppableId ===
+                    result.destination.droppableId;
+                if (isSameColumn) {
+                    setColumns((columns) => {
+                        return columns.map((column) => {
+                            if (column.id !== result.source.droppableId)
+                                return column;
 
-            const tempColumns = Array.from(columns)
-            const index = tempColumns.indexOf(targetColumn)
-            targetColumn.cards = tempCards
-            const [reArrangedColums] = tempColumns.splice(index, 1)
-            tempColumns.splice(index, 0, reArrangedColums)
-            setColumns(tempColumns)
-
-            console.log(columns)
-        } else if (
-            result.type === 'CARD' &&
-            result.source.droppableId !== result.destination.droppableId
-        ) {
-            if (!result.destination) return
-            const sourceColumn = columns.find(
-                (col) => col.id === result.source.droppableId
-            )
-            if (!sourceColumn) return
-            const destinationColumn = columns.find(
-                (col) => col.id === result.destination!.droppableId
-            )
-            if (!destinationColumn) return
-
-            const targetCard = sourceColumn.cards.find(
-                (card) => card.id === result.draggableId
-            )
-            if (!targetCard) return
-
-            const tempColumns = Array.from(columns)
-            const sourceColumnindex = tempColumns.indexOf(sourceColumn)
-            sourceColumn.cards = sourceColumn.cards.filter(
-                (card) => card.id !== result.draggableId
-            )
-            const [reArrangedColums] = tempColumns.splice(sourceColumnindex, 1)
-            tempColumns.splice(sourceColumnindex, 0, reArrangedColums)
-
-            const tempCards = Array.from(destinationColumn.cards)
-            tempCards.splice(result.destination.index, 0, targetCard)
-            destinationColumn.cards = tempCards
-
-            const desinationColumnIndex = tempColumns.indexOf(destinationColumn)
-            const [reArrangedColums2] = tempColumns.splice(
-                desinationColumnIndex,
-                1
-            )
-            tempColumns.splice(desinationColumnIndex, 0, reArrangedColums2)
-            setColumns(tempColumns)
-
-            console.log(columns)
+                            return {
+                                ...column,
+                                cards: reorder<CardType>(
+                                    result.source.index,
+                                    result.destination!.index,
+                                    column.cards
+                                ),
+                            };
+                        });
+                    });
+                } else {
+                    setColumns((columns) => {
+                        return move(result, columns);
+                    });
+                }
+                break;
         }
-    }
+    };
+
+    const onSearch = (searchBy: string) => {
+        if (!searchBy) setColumns(orgColumns);
+
+        const updatingColumns = orgColumns.map((column) => ({
+            ...column,
+            cards: column.cards.filter((card) =>
+                card.content.toLowerCase().includes(searchBy.toLowerCase())
+            ),
+        }));
+        setColumns(updatingColumns);
+    };
 
     return (
         <div className="Board">
-            <div className="BoardTitle">{title}</div>
+            <div className="BoardTitle">
+                {title} <Search onSearch={onSearch} />
+            </div>
+
             <DragDropContext onDragEnd={(result) => onDragEnd(result)}>
                 <Droppable
                     droppableId="columns"
@@ -275,8 +274,8 @@ const Board: React.FC<BoardProps> = (props) => {
                                                 title: value,
                                                 cards: [],
                                             },
-                                        ]
-                                    })
+                                        ];
+                                    });
                                 }}
                             />
                         </div>
@@ -284,8 +283,7 @@ const Board: React.FC<BoardProps> = (props) => {
                 </Droppable>
             </DragDropContext>
         </div>
-    )
-}
+    );
+};
 
-export default Board
-export type { CardType }
+export default Board;

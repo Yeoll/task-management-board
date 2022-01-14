@@ -1,39 +1,39 @@
-import React, { useState } from 'react'
-import Priority from './Priority'
-import Modal from './Modal'
-import { Priorities } from './enums/Priorities'
-import CardProps from './props/CardProps'
-import '../styles/Card.scss'
-import '../styles/Column.scss'
+import React, { useState } from 'react';
+import Priority from './Priority';
+import Modal from './Modal';
+import { Priorities } from './enums/Priorities';
+import CardProps from './props/CardProps';
+import '../styles/Card.scss';
+import '../styles/Column.scss';
 
 const Card: React.FC<CardProps> = (props) => {
-    const [isEditing, setIsEditing] = useState<boolean>(false)
-    const [content, setContent] = useState<string>(props.card.content)
-    const [isModalOpened, setIsModalOpened] = useState<boolean>(false)
-    const [priority, setPriority] = useState<Priorities>(props.card.priority)
-    const [isMouseOver, setIsMouseOver] = useState<boolean>(false)
+    const [isEditing, setIsEditing] = useState<boolean>(false);
+    const [content, setContent] = useState<string>(props.card.content);
+    const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+    const [priority, setPriority] = useState<Priorities>(props.card.priority);
+    const [isMouseOver, setIsMouseOver] = useState<boolean>(false);
 
     const onClickPriority = () => {
-        setPriority((priority + 1) % 4)
-    }
+        setPriority((priority + 1) % 4);
+    };
 
     const onClickEdit = () => {
-        setIsEditing(true)
-    }
+        setIsEditing(true);
+    };
 
     const onClickDelete = () => {
-        setIsModalOpened(true)
-    }
+        setIsModalOpened(true);
+    };
 
     const onMouseOver = () => {
-        setIsMouseOver(true)
-    }
+        setIsMouseOver(true);
+    };
 
     const onMouseLeave = () => {
-        setIsMouseOver(false)
-    }
+        setIsMouseOver(false);
+    };
 
-    const question = 'Do you want to remove [' + props.card.content + ']?'
+    const question = 'Do you want to remove [' + props.card.content + ']?';
 
     return (
         <>
@@ -54,7 +54,7 @@ const Card: React.FC<CardProps> = (props) => {
                             <textarea
                                 className="TextArea"
                                 onChange={(e) => {
-                                    setContent(e.target.value)
+                                    setContent(e.target.value);
                                 }}
                                 defaultValue={content}
                             ></textarea>
@@ -62,10 +62,10 @@ const Card: React.FC<CardProps> = (props) => {
                                 <button
                                     className="Button"
                                     onClick={(e) => {
-                                        e.preventDefault()
-                                        setIsEditing(false)
-                                        setIsMouseOver(false)
-                                        props.onClickSave(content, priority)
+                                        e.preventDefault();
+                                        setIsEditing(false);
+                                        setIsMouseOver(false);
+                                        props.onClickSave(content, priority);
                                     }}
                                 >
                                     Save
@@ -73,10 +73,10 @@ const Card: React.FC<CardProps> = (props) => {
                                 <button
                                     className="Button"
                                     onClick={(e) => {
-                                        e.preventDefault()
-                                        setIsEditing(false)
-                                        setIsMouseOver(false)
-                                        onClickDelete()
+                                        e.preventDefault();
+                                        setIsEditing(false);
+                                        setIsMouseOver(false);
+                                        onClickDelete();
                                     }}
                                 >
                                     Delete
@@ -109,16 +109,16 @@ const Card: React.FC<CardProps> = (props) => {
                 <Modal
                     question={question}
                     onClickConfirm={() => {
-                        setIsModalOpened(false)
-                        props.onClickDelete(props.card.id)
+                        setIsModalOpened(false);
+                        props.onClickDelete(props.card.id);
                     }}
                     onClickCancel={() => {
-                        setIsModalOpened(false)
+                        setIsModalOpened(false);
                     }}
                 />
             )}
         </>
-    )
-}
+    );
+};
 
-export default Card
+export default Card;

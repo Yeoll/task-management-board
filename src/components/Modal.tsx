@@ -1,6 +1,6 @@
-import React from 'react'
-import ModalProps from './props/ModalProps'
-import '../styles/Modal.scss'
+import React from 'react';
+import ModalProps from './props/ModalProps';
+import '../styles/Modal.scss';
 
 const Modal: React.FC<ModalProps> = (props) => {
     return (
@@ -11,8 +11,8 @@ const Modal: React.FC<ModalProps> = (props) => {
                     <button
                         className="Button"
                         onClick={(e) => {
-                            e.preventDefault()
-                            props.onClickConfirm()
+                            e.preventDefault();
+                            props.onClickConfirm();
                         }}
                     >
                         Confirm
@@ -20,8 +20,8 @@ const Modal: React.FC<ModalProps> = (props) => {
                     <button
                         className="Button"
                         onClick={(e) => {
-                            e.preventDefault()
-                            props.onClickCancel()
+                            e.preventDefault();
+                            props.onClickCancel();
                         }}
                     >
                         Cancel
@@ -29,7 +29,7 @@ const Modal: React.FC<ModalProps> = (props) => {
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Modal
+export default Modal;

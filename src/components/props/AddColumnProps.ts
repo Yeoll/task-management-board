@@ -1,5 +1,5 @@
 interface AddColumnProps {
-    onClickSave: (title: string) => void
+    onClickSave: (title: string) => void;
 }
 
-export default AddColumnProps
+export default AddColumnProps;

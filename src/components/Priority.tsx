@@ -1,7 +1,7 @@
-import React from 'react'
-import { getColor } from './enums/Priorities'
-import PriorityProps from './props/PriorityProps'
-import '../styles/Priority.scss'
+import React from 'react';
+import { getColor } from './enums/Priorities';
+import PriorityProps from './props/PriorityProps';
+import '../styles/Priority.scss';
 
 const Priority: React.FC<PriorityProps> = (props) => {
     return (
@@ -25,7 +25,7 @@ const Priority: React.FC<PriorityProps> = (props) => {
                 />
             )}
         </>
-    )
-}
+    );
+};
 
-export default Priority
+export default Priority;
