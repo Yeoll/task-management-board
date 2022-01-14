@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Column from './Column';
 import BoardProps from './props/BoardProps';
 import { Priorities } from './enums/Priorities';
@@ -82,7 +82,6 @@ const Board: React.FC<BoardProps> = (props) => {
     const [title] = useState<string>(props.title);
     const [orgColumns, setOrgColumns] = useState<ColumnType[]>([]);
     const [columns, setColumns] = useState<ColumnType[]>([]);
-    const [isSearching, setIsSearching] = useState<boolean>(false);
 
     useEffect(() => {
         if ('data_columns' in localStorage) {
