@@ -114,15 +114,15 @@ const Board: React.FC<BoardProps> = (props) => {
                             draggableHandleProps={provided.dragHandleProps}
                             cards={column.cards}
                             onClickSaveTitle={(value) => {
-                                if (
-                                    !columns.find((col) => col.id === column.id)
-                                )
-                                    return;
-                                (
-                                    columns.find(
-                                        (col) => col.id === column.id
-                                    ) as ColumnType
-                                ).title = value;
+                                const tempColumns = [...columns];
+                                const targetColumn = columns.find(
+                                    (col) => col.id === column.id
+                                );
+                                if (!targetColumn) return;
+
+                                targetColumn!.title = value;
+
+                                setColumns(tempColumns);
                             }}
                             onClickRemoveColumn={(value) => {
                                 if (!columns.find((col) => col.id === value))
@@ -189,6 +189,7 @@ const Board: React.FC<BoardProps> = (props) => {
     });
 
     const onDragEnd = (result: DropResult) => {
+        console.log(result);
         if (!result.destination) return;
 
         switch (result.type) {

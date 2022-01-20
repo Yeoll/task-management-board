@@ -81,51 +81,52 @@ const Column: React.FC<ColumnProps> = (props) => {
 
     return (
         <div className="Column">
-            {isEditingTitle ? (
-                <>
-                    <input
-                        className="Input"
-                        onChange={(e) => setTitle(e.target.value)}
-                        value={title}
-                    />
-                    <button
-                        className="Button"
-                        onClick={(e) => {
-                            e.preventDefault();
-                            if (!title) return;
-                            setIsEditingTitle(false);
-                            props.onClickSaveTitle(title);
-                        }}
-                    >
-                        Save
-                    </button>
-                </>
-            ) : (
-                <div
-                    className="ColumnHeader"
-                    onMouseOver={onMouseOver}
-                    onMouseLeave={onMouseLeave}
-                >
-                    <div
-                        className="ColumnTitle"
-                        onClick={onClickTitle}
-                        {...props.draggableHandleProps}
-                    >
-                        {title}
-                    </div>
-                    {isMouseOver && (
-                        <div className="ColumnIcon" onClick={onClickRemove}>
-                            <i className="trash alternate outline icon CustomIcon"></i>
-                        </div>
-                    )}
-                </div>
-            )}
             <Droppable droppableId={props.id} type="CARD">
                 {(provided) => (
-                    <div
-                        ref={provided.innerRef}
-                        {...(provided.droppableProps ?? {})}
-                    >
+                    <div ref={provided.innerRef} {...provided.droppableProps}>
+                        {isEditingTitle ? (
+                            <>
+                                <input
+                                    className="Input"
+                                    onChange={(e) => setTitle(e.target.value)}
+                                    value={title}
+                                />
+                                <button
+                                    className="Button"
+                                    onClick={(e) => {
+                                        e.preventDefault();
+                                        if (!title) return;
+                                        setIsEditingTitle(false);
+                                        props.onClickSaveTitle(title);
+                                    }}
+                                >
+                                    Save
+                                </button>
+                            </>
+                        ) : (
+                            <div
+                                className="ColumnHeader"
+                                onMouseOver={onMouseOver}
+                                onMouseLeave={onMouseLeave}
+                            >
+                                <div
+                                    className="ColumnTitle"
+                                    onClick={onClickTitle}
+                                    {...props.draggableHandleProps}
+                                >
+                                    {title}
+                                </div>
+                                {isMouseOver && (
+                                    <div
+                                        className="ColumnIcon"
+                                        onClick={onClickRemove}
+                                    >
+                                        <i className="trash alternate outline icon CustomIcon"></i>
+                                    </div>
+                                )}
+                            </div>
+                        )}
+
                         {renderCards()}
                         {provided.placeholder}
                     </div>
